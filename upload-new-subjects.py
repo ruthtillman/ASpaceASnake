@@ -33,8 +33,8 @@ def name_log():
 
 # Makes use of init_log and the dictionary of responses received. Note that this dictionary includes responses which have had titles added to them. That's mostly for my own use.
 
-def create_log(init_log, results):
-    logName = init_job[0]
+def create_log(init_job, results):
+    logName = 'logs/' + init_job[0]
     log = json.loads('{"jobType" : "upload_subjects"}')
     log['user'] = 'rkt6'
     log['dateTimeStart'] = init_job[1]
