@@ -10,13 +10,14 @@ import re, glob, json
 # $aMexican War, 1846-1848$zPennsylvania$zLewistown (Mifflin County)$vPosters
 
 def get_title(subject):
-  title = re.sub(r"\$\w", "--", subject)
+  title = re.sub(r"\$\w", "--", subject).lstrip("--")
   return title
 
 def get_subfields(subject):
   subfields = subject.split('$')
   del subfields[0]
-  return subfields
+  terms = parse_subfields(subfields)
+  return terms
 
 def parse_subfields(subfields):
   subfield_dict = {"a": "topical", "b": "topical", "d": "temporal", "v": "genre_form", "x": "topical", "y": "temporal", "z": "spatial"}
@@ -33,4 +34,24 @@ def parse_subfields(subfields):
 def make_subject(field):
   real_field = field.strip("\n").strip('"')
   title = get_title(real_field)
-  subfields = get_subfields()
+  subfields = get_subfields(real_field)
+  base_subject='{"jsonmodel_type":"subject", "publish": true, "source": "Library of Congress Subject Headings","vocabulary":"/vocabularies/1"}'
+  base = json.loads(base_subject)
+  base["title"] = title
+  base["terms"] = subfields
+  return base
+
+def write_subjects(source_file,filestem):
+  subject_num = 1
+  with open(source_file, "r") as source:
+    for line in source:
+      output = make_subject(line)
+      filename = filestem + str(subject_num) + ".json"
+      with open(filename, "w") as subject_file:
+        json.dump(output, subject_file, indent=4)
+        subject_num += 1
+
+source = input("What's the name of the source file? ")
+filestem = input("What filestem should I use? ")
+
+write_subjects(source, filestem)
