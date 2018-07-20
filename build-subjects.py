@@ -23,10 +23,8 @@ def parse_subfields(subfields):
   terms_array = []
   for each in subfields:
     term_entry = {"jsonmodel_type":"term","vocabulary": "/vocabularies/1"}
-    term_type = subfield_dict[each[:1]]
-    term = each[1:]
-    term_entry["term_type"] = term_type
-    term_entry["term"] = term
+    term_entry["term_type"] = subfield_dict[each[:1]]
+    term_entry["term"] = each[1:]
     terms_array.append(term_entry)
   return terms_array
 
