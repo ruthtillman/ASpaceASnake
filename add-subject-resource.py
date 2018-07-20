@@ -15,11 +15,15 @@ from asnake.client import ASnakeClient
 #
 #
 
-
 # Create and authorize a client to ASnake!
 client = ASnakeClient()
 client.authorize()
 
+# This function downloads the record (note, it must take in both fields of the CSV row), holds onto it, and pulls out the subject for testing and one of two future functions
+
+# This function is what we do if the subject array is empty
+
+# This function is what we do if the subject array is not empty
 
 working_csv = 'Collection_Subjects.csv'
 with open(working_csv) as csvfile:
