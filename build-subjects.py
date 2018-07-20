@@ -20,7 +20,7 @@ def get_subfields(subject):
   return terms
 
 def parse_subfields(subfields):
-  subfield_dict = {"a": "topical", "b": "topical", "d": "temporal", "v": "genre_form", "x": "topical", "y": "temporal", "z": "spatial"}
+  subfield_dict = {"a": "topical", "b": "topical", "d": "temporal", "v": "genre_form", "x": "topical", "y": "temporal", "z": "geographic"}
   terms_array = []
   for each in subfields:
     term_entry = {"jsonmodel_type":"term","vocabulary": "/vocabularies/1"}
