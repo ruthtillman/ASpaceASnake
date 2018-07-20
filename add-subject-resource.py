@@ -1,11 +1,17 @@
-import re, json, csv, requests, glob, logging
-# add ASnake Client
-from asnake.client import ASnakeClient
+import re, json, csv, requests, glob, datetime
 import asnake.logging as logging
 
-logging.setup_logging(level='DEBUG')
+# fuk u logging
 
-# Create and authorize a client to ASnake!
+logname = 'logs/subject_resource_processing_' + datetime.datetime.now().strftime('%Y-%m-%d-T-%H-%M') + '.log'
+
+logfile = open(logname, 'w')
+logging.setup_logging(stream=logfile)
+logger = logging.get_logger("add-subjects-log")
+
+# add ASnake Client
+from asnake.client import ASnakeClient
+
 client = ASnakeClient()
 client.authorize()
 
@@ -25,6 +31,7 @@ def no_original_subjects(resource,new_subjects):
     for subject in new_subjects:
         subjects.append({"ref": subject})
     resource["subjects"] = subjects
+    logger.info("process_resource", action="new_subjects", data={"resource_uri": resource["uri"], "subjects" : subjects})
     return resource
 
 # This function is what we do if the subject array is not empty
@@ -34,6 +41,7 @@ def adding_subjects(resource,new_subjects,original_subjects):
         if subject not in original_subjects:
             original_subjects.append({"ref": subject})
     resource["subject"] = original_subjects
+    logger.info("process_resource", action="append_subjects", data={"resource_uri": resource["uri"], "subjects" : original_subjects})
     return resource
 
 def process_resource(resource_id,subject_list):
@@ -56,10 +64,21 @@ def process_csv(working_csv):
             new_filename = "new_resources/new-resource" + row[0] + ".json"
             with open(new_filename, "w") as makenew:
                 json.dump(new_resource, makenew, indent=4)
+        logfile.close()
 
 working_csv = 'test_coll_subject.csv'
 
-process_csv(working_csv)
+def decision_point(choice):
+    if choice == "1":
+        process_csv(working_csv)
+    elif choice == "2":
+        upload_resources(working_csv)
+    else:
+        print("You chose something else. Either you made a mistake or aborted the process, in which case safe call!")
+
+choice = input("Type '1' to download resources and add subjects or '2' to upload the resources: ")
+
+decision_point(choice)
 
 # working_csv = 'Collection_Subjects.csv'
 
