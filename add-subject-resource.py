@@ -1,6 +1,9 @@
 import re, json, csv, requests, glob, logging
 # add ASnake Client
 from asnake.client import ASnakeClient
+import asnake.logging as logging
+
+logging.setup_logging(level='DEBUG')
 
 # Create and authorize a client to ASnake!
 client = ASnakeClient()
@@ -40,10 +43,8 @@ def process_resource(resource_id,subject_list):
     original_subjects = resource["subjects"]
     if not original_subjects:
         new_resource = no_original_subjects(resource,new_subjects)
-        print("Only new subjects")
     else:
         new_resource = adding_subjects(resource,new_subjects,original_subjects)
-        print("Old and new subjects")
     return new_resource
 
 def process_csv(working_csv):
@@ -52,11 +53,14 @@ def process_csv(working_csv):
         next(pairs,None) # skips header! Remove this line if your data does not have headers
         for row in pairs:
             new_resource = process_resource(row[0],row[1])
-            new_filename = "new-resource" row[0] + ".json"
+            new_filename = "new_resources/new-resource" + row[0] + ".json"
             with open(new_filename, "w") as makenew:
                 json.dump(new_resource, makenew, indent=4)
 
-# working_csv = test_coll_subject.csv
+working_csv = 'test_coll_subject.csv'
+
+process_csv(working_csv)
+
 # working_csv = 'Collection_Subjects.csv'
 
 # input("What's the name of the CSV or something? ") # this line allows one to pass as a parameter
