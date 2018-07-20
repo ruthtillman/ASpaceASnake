@@ -26,13 +26,12 @@ def upload_json_as_new_subjects(file_dir):
         response = client.post('subjects', json=subject).json()
         response['title'] = subject['title']
         logger.info("upload_subject", response=response)
-    os.chdir('..')
+    os.chdir('..') # if taking full filepaths be sure to grab a cwd at the start so you can go back to it
     logfile.close()
 
+# This can be made into an input at some point but right now I'm managing manually.
 
-# This can be made into an input at some point but right now we'll just set to the files directory
-
-subject_location = 'first-reserve'
+subject_location = 'reserve-batch'
 
 # Call the main function
 
