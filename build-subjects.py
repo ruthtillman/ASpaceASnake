@@ -29,7 +29,7 @@ def parse_subfields(subfields):
   return terms_array
 
 def make_subject(field):
-  real_field = field.strip("\n").strip('"')
+  real_field = field.strip("\n").strip('"') # abundance of caution
   title = get_title(real_field)
   subfields = get_subfields(real_field)
   base_subject='{"jsonmodel_type":"subject", "publish": true, "source": "Library of Congress Subject Headings","vocabulary":"/vocabularies/1"}'
