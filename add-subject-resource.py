@@ -37,12 +37,23 @@ def no_original_subjects(resource,new_subjects):
 # This function is what we do if the subject array is not empty
 
 def adding_subjects(resource,new_subjects,original_subjects):
+    full_subjects = []
     for subject in new_subjects:
         if subject not in original_subjects:
-            original_subjects.append({"ref": subject})
-    resource["subject"] = original_subjects
-    logger.info("process_resource", action="append_subjects", data={"resource_uri": resource["uri"], "subjects" : original_subjects})
+            original_subjects.append(subject)
+    for subject in original_subjects:
+      full_subjects.append({"ref": subject})
+    resource["subjects"] = full_subjects
+    logger.info("process_resource", action="append_subjects", data={"resource_uri": resource["uri"], "subjects" : full_subjects})
     return resource
+
+# turns the original subjects into a vanilla list.
+
+def get_original_subjects(sublist):
+  list = []
+  for item in sublist:
+    list.append(item["ref"])
+  return list
 
 def process_resource(resource_id,subject_list):
     resource = client.get('repositories/3/resources/' + resource_id).json()
@@ -52,21 +63,34 @@ def process_resource(resource_id,subject_list):
     if not original_subjects:
         new_resource = no_original_subjects(resource,new_subjects)
     else:
+        original_subjects = get_original_subjects(original_subjects)
         new_resource = adding_subjects(resource,new_subjects,original_subjects)
     return new_resource
 
 def process_csv(working_csv):
     with open(working_csv) as csvfile:
         pairs = csv.reader(csvfile)
-        next(pairs,None) # skips header! Remove this line if your data does not have headers
+        next(pairs,None) # skips header! Comment out this line if your data does not have headers
         for row in pairs:
             new_resource = process_resource(row[0],row[1])
-            new_filename = "new_resources/new-resource" + row[0] + ".json"
+            new_filename = "new_resources/new-resource-" + row[0] + ".json" # note if filename is being made differently check this + place in upload_resources because these pair.
             with open(new_filename, "w") as makenew:
                 json.dump(new_resource, makenew, indent=4)
         logfile.close()
 
-working_csv = 'test_coll_subject.csv'
+def upload_resources(working_csv):
+    with open(working_csv) as csvfile:
+        pairs = csv.reader(csvfile)
+        next(pairs,None) # skips header! Comment out this line if your data does not have headers
+        for row in pairs:
+            file = "new_resources/new-resource-" + row[0] + ".json" # note if filename is being made differently check this + place in process_csv because these pair.
+            resource = json.load(open(file))
+            response = client.post('repositories/3/resources/' + row[0], json=resource).json()
+            logger.info("process_resource", action="upload_resource", resource_id=row[0], response=response)
+    logfile.close()
+
+working_csv = 'Collection_Subjects.csv'
+
 
 def decision_point(choice):
     if choice == "1":
@@ -80,6 +104,5 @@ choice = input("Type '1' to download resources and add subjects or '2' to upload
 
 decision_point(choice)
 
-# working_csv = 'Collection_Subjects.csv'
 
 # input("What's the name of the CSV or something? ") # this line allows one to pass as a parameter
