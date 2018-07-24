@@ -17,7 +17,7 @@ from asnake.client import ASnakeClient
 client = ASnakeClient()
 client.authorize()
 
-def upload_json_as_new_subjects(file_dir):
+def upload_json_as_new_subjects(file_dir,batch):
     logger.info("upload_start", batch_name=batch)
     os.chdir(file_dir)
     subjects = glob.glob("*.json")
@@ -37,4 +37,4 @@ subject_location = 'reserve-batch'
 
 batch = input("Name your upload batch: ")
 
-upload_json_as_new_subjects(subject_location)
+upload_json_as_new_subjects(subject_location,batch)

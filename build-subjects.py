@@ -7,6 +7,9 @@ import re, glob, json
 # $aAfrican American artists$vInterviews
 # $aMennonites$xSocial life and customs
 # $aMexican War, 1846-1848$zPennsylvania$zLewistown (Mifflin County)$vPosters
+# It can handle |a instead of $a, but it does expect some kind of delimiter and you'll need to substitute them.
+
+# Generates the title by substituing all subfield keys with -- and then removing the -- which replaced subfield $a.
 
 def get_title(subject):
   title = re.sub(r"\$\w", "--", subject).lstrip("--")
