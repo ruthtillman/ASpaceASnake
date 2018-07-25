@@ -1,7 +1,6 @@
-# Import the various client libraries needed to make this work. And some friends for now.
-import os, requests, glob, json, logging, csv, configparser, datetime
+import glob, json, datetime
 
-# import and set up logging BEFORE touching the client or anything
+# Setting up the log
 import asnake.logging as logging
 
 logname = 'logs/new_subject_upload_' + datetime.datetime.now().strftime('%Y-%m-%d-T-%H-%M') + '.log'
@@ -13,28 +12,25 @@ logger = logging.get_logger("upload-new-subjects")
 # Bring in the client to work at a very basic level.
 from asnake.client import ASnakeClient
 
-# Create and authorize a client to ASnake!
+# Create and authorize the client
 client = ASnakeClient()
 client.authorize()
 
+# actually run the upload. Simply sets up the log, gathers the JSON, and then uploads each. This is a simple post because it's creating new ones and doesn't need any kind of number.
+
 def upload_json_as_new_subjects(file_dir,batch):
     logger.info("upload_start", batch_name=batch)
-    os.chdir(file_dir)
-    subjects = glob.glob("*.json")
+    subjects = glob.glob(file_dir + "/" + "*.json") # globs all the .json objects in the directory where the files are located.
     for file in subjects:
         subject = json.load(open(file))
         response = client.post('subjects', json=subject).json()
         response['title'] = subject['title']
         logger.info("upload_subject", response=response)
-    os.chdir('..') # if taking full filepaths be sure to grab a cwd at the start so you can go back to it
     logfile.close()
-
-# This can be made into an input at some point but right now I'm managing manually.
-
-subject_location = 'reserve-batch'
 
 # Call the main function
 
 batch = input("Name your upload batch: ")
+subject_location = input("The full or relative path to your batch: ")
 
 upload_json_as_new_subjects(subject_location,batch)

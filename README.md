@@ -1,5 +1,37 @@
-# Scripts to Create and Upload Subjects from a CSV ingest
+# ArchivesSpace and ArchivesSnake Scripts
+
+This is a project to collect and document my scripts which engage with our local ArchivesSpace using the ArchivesSnake Python library. It uses the Configuration https://github.com/archivesspace-labs/ArchivesSnake#configuration kept in my home folder. Of note -- the repository is a hardcoded value in these scripts.
+
+Code is commented. Please read the comments!
+
+## Build Subjects - build-subjects.py
+
+This script is intended to take a .txt of raw 650 fields content broken by lines. Subfields which were not being imported were already stripped. The data should not have indicators or the quotation marks which may wrap a term if it contains commas and was extracted from a CSV. It could handle delimiters other than `$` but you would need to find and hardcode those in.
+
+Sample data:
+
+```
+$aAfrican American artists$vInterviews
+$aMennonites$xSocial life and customs
+$aMexican War, 1846-1848$zPennsylvania$zLewistown (Mifflin County)$vPosters
+```
+
+It asks you to provide the name of the source file and a filestem for the subjects you're creating.
+
+It does hardcode a couple values related to the vocabulary which you're using. Ensure you check these match the vocabulary name/number in your ArchivesSpace repo. It can handle the following subfields. You would need to add any others and determine whether they needed specialized behaviors (e.g $2, which I stripped from the initial document): $a, $b, $c, $d, $v, $x, $y, $z.
+
+There is no need to identify existing terms with URIs, as ArchivesSpace will match them to the appropriate URIs.
 
 ## Upload New Subjects - upload-new-subjects.py
 
-Posts all .json files in a directory to the ArchivesSpace API as new subjects.
+Takes a batch name and path to the directory where your new subjects exist. It's a pretty straightforward upload script which posts every JSON object in the directory to ArchivesSpace.
+
+Important ArchivesSpace note: ArchivesSpace will detect any duplicates and reject them. As mentioned above, it matches terms.
+
+## Update URIs in Subject JSON - update-URIs.py
+
+
+
+## Update Resources - update-resources.py
+
+## Upload Updated Resources - upload-updated-resources.py

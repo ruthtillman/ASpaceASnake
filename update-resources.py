@@ -1,14 +1,13 @@
 import re, json, csv, requests, glob, datetime, os
 import asnake.logging as logging
 
-# fuk u logging
 # expects a 2-column CSV in which the first column has the resource ID and the second has the subject ID. Multiple subject IDs should be pipe-separated, e.g. "24|133|1313|234" or just 24. These subjects should only be _new_ subjects you're adding.
 
 logname = 'logs/resource_processing_' + datetime.datetime.now().strftime('%Y-%m-%d-T-%H-%M') + '.log'
 
 logfile = open(logname, 'w')
 logging.setup_logging(stream=logfile)
-logger = logging.get_logger("add-subjects-log")
+logger = logging.get_logger("process-CSV-to-resources")
 
 # add ASnake Client
 from asnake.client import ASnakeClient
@@ -54,8 +53,8 @@ def get_original_subjects(sublist):
 
 # Gets the resource from our API (note that we are not using repository number in config but maybe I should ask for that too? right now it's hardcoded.) Runs quick backup. Turns string that is subjects with pipe separation, e.g" "2324|1313" into "/subjects/2324", "/subjects/1313". Figure out if the resource already had subjects. Then pass it off to functions to manage it accordingly. Retrun the new resource to the previous function so we can write it back out.
 
-def process_resource(resource_id,subject_list):
-    resource = client.get('repositories/3/resources/' + resource_id).json()
+def process_resource(resource_id,subject_list,repo_num):
+    resource = client.get('repositories/' + repo_num + '/resources/' + resource_id).json()
     quick_backup(resource_id,resource)
     new_subjects = ["/subjects/" + sub for sub in subject_list.split("|")]
     original_subjects = resource["subjects"]
@@ -68,15 +67,18 @@ def process_resource(resource_id,subject_list):
 
 # opens the working CSV, gets values, runs processing script, makes new filename, and dumps into JSON file. Stops log.
 
-def process_csv(working_csv):
+def process_csv(working_csv,repo_num):
     with open(working_csv) as csvfile:
         pairs = csv.reader(csvfile)
         next(pairs,None) # skips header! Comment out this line if your data does not have headers
         for row in pairs:
-            new_resource = process_resource(row[0],row[1])
+            new_resource = process_resource(row[0],row[1],repo_num)
             new_filename = "new_resources/new-resource-" + row[0] + ".json" # note if filename is being made differently check this + place in upload_resources because these pair.
             with open(new_filename, "w") as makenew:
                 json.dump(new_resource, makenew, indent=4)
         logfile.close()
 
 working_csv = input("What's the name of the CSV which has your pairings? ")
+repo_num = input("What repository will you be using?")
+
+process_csv(working_csv,repo_num)
