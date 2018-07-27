@@ -30,8 +30,14 @@ Important ArchivesSpace note: ArchivesSpace will detect any duplicates and rejec
 
 ## Update URIs in Subject JSON - update-URIs.py
 
+Once you've reconciled authorities with URIs, this takes the ID and the URI and updates.
 
+(This is currently properly working for subjects but should probably be checked to ensure it can handle other kinds of authorities. Do they use the same field?)
 
 ## Update Resources - update-resources.py
 
+Updates the resource object
+
 ## Upload Updated Resources - upload-updated-resources.py
+
+Uploads the updated resource objects. ... Can I just consolidate this one so that we've got it uploading either subjects or updated resources or ????

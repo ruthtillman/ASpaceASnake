@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import re, json, csv, requests, glob, datetime, os
 import asnake.logging as logging
 
@@ -15,7 +16,7 @@ from asnake.client import ASnakeClient
 client = ASnakeClient()
 client.authorize()
 
-# WRITE OUT THE ORIGINAL TO ANOTHER DIRECTORY AS A BACKUP. This is a place where one could take a param. Remember to either commit your backups each time or move them entirely because otherwise you'll end up with them being undone.
+# WRITE OUT THE ORIGINAL TO ANOTHER DIRECTORY AS A BACKUP. This is a place where one could take a param. Remember to either commit your backups each time or move them entirely because otherwise you'll end up with them being undone when you run it!
 def quick_backup(resource_id,resource):
     original = "backups/original-" + resource_id + ".json"
     with open(original, "w") as backup:

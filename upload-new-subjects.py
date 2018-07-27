@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import glob, json, datetime
 
 # Setting up the log

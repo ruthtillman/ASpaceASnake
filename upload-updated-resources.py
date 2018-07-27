@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import json, glob, datetime, re
 import asnake.logging as logging
 

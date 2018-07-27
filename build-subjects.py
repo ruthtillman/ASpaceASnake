@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import re, glob, json
 # this script is intended to take a .txt of raw 650 fields content broken by lines. The data should not have indicators or the quotation marks which may wrap a term if it contains commas and was extracted from a CSV.
 
