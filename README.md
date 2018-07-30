@@ -2,7 +2,9 @@
 
 This is a project to collect and document my scripts which engage with our local ArchivesSpace using the ArchivesSnake Python library. It uses the Configuration https://github.com/archivesspace-labs/ArchivesSnake#configuration kept in my home folder. Of note -- the repository is a hardcoded value in these scripts.
 
-Code is commented. Please read the comments!
+Code is commented. Please read the comments! There is substantial potential for reuse, but you'll need to know what's hardcoded.
+
+These scripts were built for a specific project of creating subjects, updating subjects with URIs, uploading subjects, adding subjects to resources, and uploading the updated resources. I slowly updating and genericizing them for my own reuse (e.g. a script which takes more params and uploads multiple types of objects).
 
 ## Build Subjects - build-subjects.py
 
@@ -20,7 +22,9 @@ It asks you to provide the name of the source file and a filestem for the subjec
 
 It does hardcode a couple values related to the vocabulary which you're using. Ensure you check these match the vocabulary name/number in your ArchivesSpace repo. It can handle the following subfields. You would need to add any others and determine whether they needed specialized behaviors (e.g $2, which I stripped from the initial document): $a, $b, $c, $d, $v, $x, $y, $z.
 
-There is no need to identify existing terms with URIs, as ArchivesSpace will match them to the appropriate URIs.
+Note that it does not yet handle $0 (or $1) URIs as I wanted to work with these directly because we have almost no $0s and no $1s in our MARC records for archival materials.
+
+There is no need to identify existing terms with ASpace TERM URIs, as ArchivesSpace will match them to the appropriate URIs.
 
 ## Upload New Subjects - upload-new-subjects.py
 
