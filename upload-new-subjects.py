@@ -17,9 +17,8 @@ from asnake.client import ASnakeClient
 client = ASnakeClient()
 client.authorize()
 
-# actually run the upload. Simply sets up the log, gathers the JSON, and then uploads each. This is a simple post because it's creating new ones and doesn't need any kind of number.
-
 def upload_json_as_new_subjects(file_dir,batch):
+    '''Actually run the upload. Simply sets up the log, gathers the JSON, and then uploads each. This is a simple post because it's creating new ones and doesn't need any kind of number.'''
     logger.info("upload_start", batch_name=batch)
     subjects = glob.glob(file_dir + "/" + "*.json") # globs all the .json objects in the directory where the files are located.
     for file in subjects:
@@ -28,8 +27,6 @@ def upload_json_as_new_subjects(file_dir,batch):
         response['title'] = subject['title']
         logger.info("upload_subject", response=response)
     logfile.close()
-
-# Call the main function
 
 batch = input("Name your upload batch: ")
 subject_location = input("The full or relative path to your batch: ")

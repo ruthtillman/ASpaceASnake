@@ -50,6 +50,5 @@ Uploads the updated resource objects. Look into consolidating this with subjects
 
 ## Future Work
 
-* Add timestamps to backup filepaths
 * Update logging when ASnake updates logging methods
 * Generic upload and download scripts. Determine possible sources of data. Determine how much/little breakdown there should be.

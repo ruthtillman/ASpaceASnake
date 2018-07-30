@@ -8,7 +8,7 @@ logname = 'logs/uploading_updated_resources_' + datetime.datetime.now().strftime
 
 logfile = open(logname, 'w')
 logging.setup_logging(stream=logfile)
-logger = logging.get_logger("upload_updated_resources")
+logger = logging.get_logger('upload_updated_resources')
 
 # add ASnake Client
 from asnake.client import ASnakeClient
@@ -16,23 +16,22 @@ from asnake.client import ASnakeClient
 client = ASnakeClient()
 client.authorize()
 
-# this scans the entire directory which the user has supplied and globs JSON files. It gets the resource number from using the prefix which the person supplied.
-
 def upload_updated_resources(file_directory,file_prefix,repo_num):
-    filename_strip = ".*" + file_prefix
-    resources = glob.glob(file_directory + "/*.json")
+    '''This scans the entire directory which the user has supplied and globs JSON files. It gets the resource number from using the prefix which the person supplied.'''
+    filename_strip = '.*' + file_prefix
+    resources = glob.glob(file_directory + '/*.json')
     for file in resources:
-        res_num = file.rstrp(".json")
+        res_num = file.rstrp('.json')
         res_num = re.sub(filename_strip, '', res_num)
         resource = json.load(open(file))
         response = client.post('repositories/' + repo_num + '/resources/' + res_num, json=resource).json()
-        logger.info("process_resource", action="upload_resource", resource_id=res_num, response=response)
+        logger.info('process_resource', action='upload_resource', resource_id=res_num, response=response)
     logfile.close()
 
 file_directory = input("What's the relative or full filepath of the directory where the JSON objects are stored? Do not include trailing slash: ")
 
 file_prefix = input("What's the prefix of the file before the resource number, including hyphens? ")
 
-repo_num = input("What repository will you be using?")
+repo_num = input("What repository will you be using? ")
 
 upload_updated_resources(file_directory, file_prefix,repo_num)
