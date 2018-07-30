@@ -6,7 +6,7 @@ The script expects the `backups` directory and `logs` directory to exist! Don't 
 
 Code is commented. Please read the comments! There is substantial potential for reuse, but you'll need to know what's hardcoded.
 
-These scripts were built for a specific project of creating subjects, updating subjects with URIs, uploading subjects, adding subjects to resources, and uploading the updated resources. I slowly updating and genericizing them for my own reuse (e.g. a script which takes more params and uploads multiple types of objects).
+These scripts were built for a specific project of creating subjects, updating subjects with URIs, uploading subjects, adding subjects to resources, and uploading the updated resources. I am slowly updating and genericizing them for my own reuse (e.g. a script which takes more params and uploads multiple types of objects).
 
 ## Build Subjects - build-subjects.py
 
