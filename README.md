@@ -36,8 +36,8 @@ Once you've reconciled authorities with URIs, this takes the ID and the URI and 
 
 ## Update Resources - update-resources.py
 
-Updates the resource object
+Updates the resource object with relationships to subjects by IDs. It expects a 2-column CSV in which the first column has the resource ID and the second has the subject ID. Multiple subject IDs should be pipe-separated, e.g. "24|133|1313|234" or just 24. These subjects should only be _new_ subjects you're adding. The script checks to ensure a relationship doesn't already exist. It appends them to the existing record. If ordering is important, you'll need to ensure your subject IDs are ordered properly in the CSV. If appending to existing records, you would need to check the resulting resource objects.
 
 ## Upload Updated Resources - upload-updated-resources.py
 
-Uploads the updated resource objects. ... Can I just consolidate this one so that we've got it uploading either subjects or updated resources or ????
+Uploads the updated resource objects. Look into consolidating this with subjects into just one upload script...
