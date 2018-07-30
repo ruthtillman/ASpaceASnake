@@ -2,7 +2,7 @@
 import json, glob, datetime, re
 import asnake.logging as logging
 
-# fuk u logging
+# set up logging. mutter profanity.
 
 logname = 'logs/uploading_updated_resources_' + datetime.datetime.now().strftime('%Y-%m-%d-T-%H-%M') + '.log'
 
