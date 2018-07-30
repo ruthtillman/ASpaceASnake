@@ -2,6 +2,8 @@
 
 This is a project to collect and document my scripts which engage with our local ArchivesSpace using the ArchivesSnake Python library. It uses the Configuration https://github.com/archivesspace-labs/ArchivesSnake#configuration kept in my home folder. Of note -- the repository is a hardcoded value in these scripts.
 
+The script expects the `backups` directory and `logs` directory to exist! Don't delete these.
+
 Code is commented. Please read the comments! There is substantial potential for reuse, but you'll need to know what's hardcoded.
 
 These scripts were built for a specific project of creating subjects, updating subjects with URIs, uploading subjects, adding subjects to resources, and uploading the updated resources. I slowly updating and genericizing them for my own reuse (e.g. a script which takes more params and uploads multiple types of objects).
@@ -45,3 +47,9 @@ Updates the resource object with relationships to subjects by IDs. It expects a 
 ## Upload Updated Resources - upload-updated-resources.py
 
 Uploads the updated resource objects. Look into consolidating this with subjects into just one upload script...
+
+## Future Work
+
+* Add timestamps to backup filepaths
+* Update logging when ASnake updates logging methods
+* Generic upload and download scripts. Determine possible sources of data. Determine how much/little breakdown there should be.
