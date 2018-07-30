@@ -12,18 +12,18 @@ import re, glob, json
 
 def get_title(subject):
     '''Generates the title by substituing all subfield keys with -- and then removing the -- which replaced subfield $a.'''
-    title = re.sub(r"\$\w", "--", subject).lstrip("--")
+    title = re.sub(r'\$\w', '--', subject).lstrip('--')
     return title
 
 def get_subfields(subject):
     '''Breaks down the subject into subfields, each beginning with the subfield code, e.g. a, d, z, 1 (if you left in 1, which you should not as this script can't handle it w/o your changes.)'''
-    subfields = subject.lstrip("$").split('$') # have to strip off the initial $ or it will create a null item in the array.
+    subfields = subject.lstrip('$').split('$') # have to strip off the initial $ or it will create a null item in the array.
     terms = parse_subfields(subfields)
     return terms
 
 def parse_subfields(subfields):
     '''Builds an array of terms. Note that this contains some hardcoding that you should review against your data and your repository before you run this script! Hardcoded fields are commented.'''
-    subfield_dict = {"a": "topical", "b": "topical", "c" : "geographic", "d": "temporal", "v": "genre_form", "x": "topical", "y": "temporal", "z": "geographic"} # HARDCODED DICTIONARY. You will need to strip other subfields or update this dictionary.
+    subfield_dict = {'a': 'topical', 'b': 'topical', 'c' : 'geographic', 'd': 'temporal', 'v': 'genre_form', 'x': 'topical', 'y': 'temporal', 'z': 'geographic'} # HARDCODED DICTIONARY. You will need to strip other subfields or update this dictionary.
     terms_array = []
     for each in subfields:
         term_entry = {'jsonmodel_type':'term','vocabulary': '/vocabularies/1'} # HARDCODED VOCABULARY
