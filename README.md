@@ -48,6 +48,14 @@ Updates the resource object with relationships to subjects by IDs. It expects a 
 
 Uploads the updated resource objects. Look into consolidating this with subjects into just one upload script...
 
+## Build CSV of Containers Information - container-to-csv.py
+
+Gathers data for the management and updating of containers. Downloads paged containers list, iterates through each record, and extracts the lock ID, the indicator, the URI, the collection ID (if exists), and the series ID (if exists). If there is more than one series, creates a separate row for each series entry.
+
+CSV headers are:
+
+`lock_version, indicator, uri,	collection_identifier,	series_identifier`
+
 ## Future Work
 
 * Update logging when ASnake updates logging methods
