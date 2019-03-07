@@ -47,14 +47,14 @@ def write_subjects(source_file,filestem,target_dir):
     '''Writes out your subjects into the directory of your choice'''
     subject_num = 1 # this just creates some numbering to differentiate the files. ASpace will number them differently!
     with open(source_file, 'r') as source:
-    for line in source:
-        output = make_subject(line)
-        filename = target_dir + filestem + str(subject_num) + '.json'
-        with open(filename, 'w') as subject_file:
-            json.dump(output, subject_file, indent=4)
-        subject_num += 1
+        for line in source:
+            output = make_subject(line)
+            filename = target_dir + "/" + filestem + str(subject_num) + '.json'
+            with open(filename, 'w') as subject_file:
+                json.dump(output, subject_file, indent=4)
+            subject_num += 1
 
-target_dir = input("What's the relative or full path to the directory where you'd like to output these subject files? ")
+target_dir = input("What's the relative or full path to the directory where you'd like to output these subject files? (must already exist ) ")
 source = input("What's the name of the source file? ")
 filestem = input("What filestem should I use? ")
 
