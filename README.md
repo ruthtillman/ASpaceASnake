@@ -58,7 +58,7 @@ CSV headers are:
 
 Expects input of the repository number with which you're working and a name for the CSV you want to output.
 
-## Batch Update Top Containers - batch
+## Batch Update Top Containers - batch-update-top-containers.py
 
 Uses the API to add locations to top container records. Requires only a CSV pairing the ID of the top container(s) and the URI of the location. Updates expect one location_uri which may be added to any number of top containers. Excepts the CSV to have two columns, as shown below, with rows of multiple ids pipe-separated.
 
