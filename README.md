@@ -56,6 +56,32 @@ CSV headers are:
 
 `lock_version, indicator, uri,	collection_identifier,	series_identifier`
 
+Expects input of the repository number with which you're working and a name for the CSV you want to output.
+
+## Batch Update Top Containers - batch
+
+Uses the API to add locations to top container records. Requires only a CSV pairing the ID of the top container(s) and the URI of the location. Updates expect one location_uri which may be added to any number of top containers. Excepts the CSV to have two columns, as shown below, with rows of multiple ids pipe-separated.
+
+Sample data:
+```
+location_uri,id
+/locations/6423,6631
+/locations/4025,24592|23842|23232
+```
+
+To create this data from pairings, e.g.
+
+```
+location_uri,id
+/locations/4025,24592
+/locations/4025,23842
+/locations/4025,23232
+```
+
+upload your data into OpenRefine. Blank down the 'location_ur' column. In the 'id' column, choose Edit Cells from the drop-down, join multi-valued cells, use | separator. Download as CSV. The script can also run against paired data, but will take longer to process.
+
+Note: Admin rights seem to be needed to run these updates.
+
 ## Future Work
 
 * Update logging when ASnake updates logging methods
