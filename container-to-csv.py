@@ -5,20 +5,23 @@ client = ASnakeClient()
 client.authorize()
 
 def startCSV(CSV):
+    '''Creates the CSV with field names and writes header'''
     fieldnames = ['lock_version', 'indicator', 'uri', 'collection_identifier', 'series_identifier']
     with open(CSV, 'w', newline='') as outputCSV:
          writer = csv.DictWriter(outputCSV, fieldnames=fieldnames)
          writer.writeheader()
 
 def addCSV(CSV, lock, ind, uri, coll_id, ser_id):
+    '''Opens CSV, appends row'''
     fieldnames = ['lock_version', 'indicator', 'uri', 'collection_identifier', 'series_identifier']
     with open(CSV, 'a', newline='') as outputCSV:
          writer = csv.DictWriter(outputCSV, fieldnames=fieldnames)
          writer.writerow({'lock_version' : lock, 'indicator' : ind, 'uri' : uri, 'collection_identifier' : coll_id, 'series_identifier' : ser_id})
 
-def generate_csv(CSV):
+def generate_csv(CSV,repo_num):
+    '''Calls ASpace API to return paged repositories. Checks to be sure the record isn't None. Gets fields lock version, indicator, URI, determins whether it's in a collection or series, gets the identifiers from the collection or series. Otherwise returns them as blank. Writes results into CSV.'''
     startCSV(CSV)
-    for record in client.get_paged('repositories/3/top_containers'):
+    for record in client.get_paged('repositories/' + repo_num + '/top_containers'):
         if record is not None:
             lock = record["lock_version"]
             indicator = record["indicator"]
@@ -35,6 +38,6 @@ def generate_csv(CSV):
                 series_id = ''
                 addCSV(CSV, lock, indicator, uri, collection_id, series_id)
 
-newCSV = 'outputCSV.csv'
-
-generate_csv(newCSV);
+newCSV = input("Name your new CSV (include '.csv'): ")
+repo_num = input("Input the repository number to call from, e.g. '4': ")
+generate_csv(newCSV, repo_num);
