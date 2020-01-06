@@ -82,6 +82,10 @@ upload your data into OpenRefine. Blank down the 'location_ur' column. In the 'i
 
 Note: Admin rights seem to be needed to run these updates.
 
+## Download Data from Subject Records - download-subject-data.py
+
+Generic script to get all subject IDs and download. Downloads data to a CSV while allowing one to specify filtering criteria and also fields downloaded. Can be adapted to get various fields.
+
 ## Future Work
 
 * Update logging when ASnake updates logging methods
