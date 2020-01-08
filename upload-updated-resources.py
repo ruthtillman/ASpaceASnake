@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import json, glob, datetime, re
+import json, glob, datetime, re, os
 import asnake.logging as logging
 
 # set up logging. mutter profanity.
@@ -18,11 +18,12 @@ client.authorize()
 
 def upload_updated_resources(file_directory,file_prefix,repo_num):
     '''This scans the entire directory which the user has supplied and globs JSON files. It gets the resource number from using the prefix which the person supplied.'''
-    filename_strip = '.*' + file_prefix
-    resources = glob.glob(file_directory + '/*.json')
+#    filename_strip = '.*' + file_prefix
+    os.chdir(file_directory)
+    resources = glob.glob('*.json')
     for file in resources:
-        res_num = file.rstrp('.json')
-        res_num = re.sub(filename_strip, '', res_num)
+        res_num = file.rstrip('.json')
+#        res_num = re.sub(filename_strip, '', res_num)
         resource = json.load(open(file))
         response = client.post('repositories/' + repo_num + '/resources/' + res_num, json=resource).json()
         logger.info('process_resource', action='upload_resource', resource_id=res_num, response=response)
