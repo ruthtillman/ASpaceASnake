@@ -1,8 +1,6 @@
 import os, json
 
-# This file downloads subjects as full strings
-# it puts them in a CSV to be reconciled.
-# it can limit by just a kind of like LCSH
+# This file downloads all subjects
 
 from asnake.client import ASnakeClient
 client = ASnakeClient()
