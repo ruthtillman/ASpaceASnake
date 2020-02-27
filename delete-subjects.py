@@ -19,13 +19,13 @@ client.authorize()
 # expects a CSV file with column subject_id of subjects to be deleted
 
 def delete_subjects(data):
-    '''This opens the CSV file, reads the subject_id column, deletes subject, and logs response'''
+    '''This opens the CSV file, reads the subject_id column, deletes subject, and logs response. Records target ID in case it's not found or other error.'''
     with open(data, newline='') as data:
         reader = csv.DictReader(data)
         for row in reader:
             sub_id = str(row['subject_id']) #typing just in case
             response = client.delete('subjects/' + sub_id).json()
-            logger.info('delete', action='delete_subject', response=response)
+            logger.info('delete', target=sub_id, action='delete_subject', response=response)
     logfile.close()
 
 data = input("What is the name of or path to the CSV? ")
