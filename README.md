@@ -48,6 +48,10 @@ Updates the resource object with relationships to subjects by IDs. It expects a 
 
 Uploads the updated resource objects. Look into consolidating this with subjects into just one upload script...
 
+## Delete Subjects - delete-subjects.py
+
+Expects a CSV in which the subject_id column contains the IDs of subjects to be deleted. Logs results. NOTE for ASpace work, this will remove the subject from any record to which it's attached with no flag or warning, so be careful when doing this kind of work!
+
 ## Build CSV of Containers Information - container-to-csv.py
 
 Gathers data for the management and updating of containers. Downloads paged containers list, iterates through each record, and extracts the lock ID, the indicator, the URI, the collection ID (if exists), and the series ID (if exists). If there is more than one series, creates a separate row for each series entry.
