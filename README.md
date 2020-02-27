@@ -82,7 +82,7 @@ location_uri,id
 /locations/4025,23232
 ```
 
-upload your data into OpenRefine. Blank down the 'location_ur' column. In the 'id' column, choose Edit Cells from the drop-down, join multi-valued cells, use | separator. Download as CSV. The script can also run against paired data, but will take longer to process.
+upload your data into OpenRefine. Blank down the 'location_uri' column. In the 'id' column, choose Edit Cells from the drop-down, join multi-valued cells, use | separator. Download as CSV. The script can also run against paired data, but will take longer to process.
 
 Note: Admin rights seem to be needed to run these updates.
 
